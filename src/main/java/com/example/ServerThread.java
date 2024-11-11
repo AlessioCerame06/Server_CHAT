@@ -6,7 +6,7 @@ import java.io.InputStreamReader;
 import java.net.Socket;
 import java.util.ArrayList;
 
-public class ServerThread {
+public class ServerThread extends Thread{
     private Socket socket;
     private GestoreGruppi gg;
     
@@ -19,7 +19,7 @@ public class ServerThread {
         try {
             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream())); // ascolto                                                                              // (ricevere)
             DataOutputStream out = new DataOutputStream(socket.getOutputStream()); // parla (invia)
-            String messaggioRicevuto;
+            String messaggioRicevuto="";
             do {
                 
 
