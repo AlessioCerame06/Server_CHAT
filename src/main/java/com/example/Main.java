@@ -5,24 +5,24 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 public class Main {
-    public static void main(String[] args) {
-        final int PORT = 10100; // Porta del server
-        GestoreGruppi gestoreGruppi = new GestoreGruppi(); // Inizializza il gestore dei gruppi
+    public static void main(String[] args) throws IOException {
+        
+        try {
+            int porta = 10100;
+            Lista_ServerThread listaServerThread = new Lista_ServerThread();
+            ServerSocket serverSocket = new ServerSocket(porta);
+            System.out.println("Server in ascolto sulla porta " + porta);
 
-        try (ServerSocket serverSocket = new ServerSocket(PORT)) {
-            System.out.println("Server avviato sulla porta " + PORT);
-
-            // Ciclo infinito per accettare connessioni dai client
             while (true) {
-                Socket clientSocket = serverSocket.accept(); // Attende una connessione
-                System.out.println("Un client si è connesso.");
 
-                // Crea un nuovo thread per gestire il client
-                ServerThread clientThread = new ServerThread(clientSocket, gestoreGruppi);
-                clientThread.start(); // Avvia il thread
+                Socket socket = serverSocket.accept();
+                System.out.println("Nuovo client connesso: " + socket.getInetAddress());
+
+                ServerThread thread = new ServerThread(socket, listaServerThread );
+                thread.start();  
             }
-        } catch (IOException e) {
-            System.err.println("Errore nell'avvio del server: " + e.getMessage());
+        } catch (Exception e) {
+            // TODO: handle exception
         }
     }
 }
