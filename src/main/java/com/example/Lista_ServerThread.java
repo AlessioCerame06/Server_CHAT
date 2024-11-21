@@ -21,6 +21,16 @@ public class Lista_ServerThread {
         this.serverThreads = serverThreads;
     }
 
+    public Boolean nomeUtenteEsiste(String nomeUtente){
+        return serverThreads.containsKey(nomeUtente);
+ 
+    }
+
+    public String listaUtenti(){
+        return String.join(", ", serverThreads.keySet());
+
+    }
+
     
 
     

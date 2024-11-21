@@ -25,18 +25,40 @@ public class ServerThread extends Thread {
             String nomeUtente;
             do {
                 messaggio=in.readLine();
+                
                 if(login){
-                    switch (messaggio) {
-                        case 1=1:
-                            
-                            break;
-                    
-                        default:
-                            break;
+                    if(messaggio.startsWith("USERS")){
+                        try {
+                            String listaUtenti = listaThread.listaUtenti();
+                            out.writeBytes("OK USERS "+listaUtenti+"\n");
+
+                        } catch (Exception e) {
+                            out.writeBytes("ERROR USERS\n");
+                        }
+                        
+                    }else if(messaggio.startsWith("MSG")){
+
+
+                    }else if(messaggio.startsWith("LOGOUT")){
+                        try {
+                            out.writeBytes("OK LOGOUT\n");
+                        } catch (Exception e) {
+                            out.writeBytes("ERROR LOGOUT\n");                        }
+                    }else{
+                        out.writeBytes("ERROR command not recognized\n");
                     }
                 }else{
                     if (messaggio.startsWith("LOGIN")) {
                         nomeUtente = messaggio.substring(6);
+                        if(!listaThread.nomeUtenteEsiste(nomeUtente)){
+                            listaThread.aggiungiServerThread(this, nomeUtente);
+                            login=true;
+                            out.writeBytes("OK LOGIN "+ nomeUtente + "\n");
+                        }else{
+                            out.writeBytes("ERROR LOGIN username already used\n");
+
+                        }
+                        
                     }else{
                         out.writeBytes("ERROR you must login first\n" );
                     }
@@ -49,7 +71,7 @@ public class ServerThread extends Thread {
             System.out.println("Qualcuno si è scollegato");
         
         } catch (Exception e) {
-            // TODO: handle exception
+            System.out.println("errore ServerThread");
         }
             
     }
