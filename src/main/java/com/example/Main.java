@@ -22,7 +22,8 @@ public class Main {
                 thread.start();  
             }
         } catch (Exception e) {
-            // TODO: handle exception
+            System.out.println("errore ServerSocket");
+
         }
     }
 }
