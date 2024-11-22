@@ -66,7 +66,10 @@ public class ServerThread extends Thread {
                             try {
                                 List<ServerThread> serverThreads = listaThread.ottieniServerThreads();
                                 for(int i=0; i<serverThreads.size(); i++){
-                                    serverThreads.get(i).inviaMessaggio("MSG " + nomeUtente + " ALL " + messaggioDaInviare);
+                                    if(serverThreads.get(i)!=this){
+                                        serverThreads.get(i).inviaMessaggio("MSG " + nomeUtente + " ALL " + messaggioDaInviare);
+
+                                    }
             
                                 }
 
